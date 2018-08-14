@@ -108,7 +108,7 @@ peano_int_peano 100;;
 peano_add 10 10;;
 peano_sub 10 10;;
 peano_mul 10 10;;
-peano_pow 15 5;;
+peano_pow 10 4;;
 
 reverse_list 100;;
 sort_list 100;;

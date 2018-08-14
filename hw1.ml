@@ -112,10 +112,7 @@ let lambda_of_stream stream =
 
   and parse_abstract () =
     match next () with
-        Ident s -> 
-          (match tkn "."; parse_lambda () with
-              Some lam -> Abs (s, lam)
-            | None -> fail "?")
+        Ident s -> tkn "."; Abs (s, parse_start_lambda () )
       | _ -> fail "?"
 
   and try_appl func =
