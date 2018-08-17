@@ -1,4 +1,12 @@
+
+#load "hw1.cmo";;
+#load "hw1_reduction.cmo";;
+#load "hw2_unify.cmo";;
+
+
 open Hw1
+open Hw1_reduction
+open Hw2_unify
 
 type simp_type = 
     | S_Elem of string 
@@ -15,6 +23,8 @@ type hm_type =
     | HM_Arrow of hm_type * hm_type 
     | HM_ForAll of string * hm_type
 
-val infer_simp_type : lambda -> ((string * simp_type list) * simp_type) option
+let infer_simp_type lam =
+  None
 
-val algorithm_w : hm_lambda -> ((string * hm_type list) * hm_type) option
+let algorithm_w hm_lam =
+  None
