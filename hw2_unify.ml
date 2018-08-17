@@ -63,7 +63,7 @@ let rec sys_to_string sys =
     | h::t -> eqt_to_string h ^ "\n" ^ sys_to_string t
 
 let prnt num str =
-  if num < 0 then print_string (Lazy.force str)
+  if num < 0 then print_string (Lazy.force str); flush stdout
 
 let solve_system x =
   let rec resolve sys resolved =
@@ -76,23 +76,17 @@ let solve_system x =
         | (l, r)::tail ->
             if l = r then (prnt 3 (lazy "eq\n"); resolve tail resolved) else
               match (l, r) with
-                | Var x, y ->
+                | (Var x as z), y | y, (Var x as z) ->
                     prnt 3 (lazy ("var " ^ x ^ "\n"));
-                    flush stdout;
                     if contains x y then raise (NoSolution "Fourth rule abused")
                     else
                       let new_resolved = SS.add x resolved in
                       let sub = List.map (substitute y x) in
                       let (eqs_l, eqs_r) = List.split sys in
-                      let new_sys = List.combine (sub eqs_l) (sub eqs_r) @ [(l, r)]
+                      let new_sys = List.combine (sub eqs_l) (sub eqs_r) @ [(z, y)]
                       in resolve new_sys new_resolved
-                | y, Var x -> 
-                    prnt 3 (lazy ("loop " ^ x ^ "\n"));
-                    flush stdout;
-                    resolve (tail @ [(r, l)]) resolved
                 | Fun (f, a1), Fun (g, a2) ->
                     prnt 3 (lazy ("fun " ^ f ^ "\n"));
-                    flush stdout;
                     if f <> g || List.length a1 <> List.length a2
                     then raise (NoSolution "Third rule abused")
                     else resolve (tail @ List.combine a1 a2) resolved)
